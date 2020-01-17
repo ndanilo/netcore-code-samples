@@ -13,7 +13,7 @@ namespace StorageFileUpload
         private static AmazonS3Client _s3Client;
         private static string _AwsBucketName;
 
-        public DocumentService()
+        public AmazonS3UploadFile()
         {
             /* Environment Variables to set (sample):
              * "AWS_ACCESS_KEY_ID": "--AKIA5J71TNDA53PISACAUXJ",

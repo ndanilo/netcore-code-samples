@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PocAsyncSingleton.Services;
 
 namespace PocAsyncSingleton
@@ -14,15 +15,19 @@ namespace PocAsyncSingleton
     public class DevController : ControllerBase
     {
         private readonly IAsyncService _service;
-        public DevController(IAsyncService service)
+        private readonly IDoSomethingService _doSomethingService;
+        public DevController(IAsyncService service, IDoSomethingService doSomethingService)
         {
             _service = service;
+            _doSomethingService = doSomethingService;
         }
 
         [HttpGet]
         public IActionResult Get([FromQuery] string message)
         {
-            _service.DoWork(message, 10);
+            Func<Task> function = () => Task.Run(() => _doSomethingService.WriteMessageAtDebug(message, 10));
+            _service.DoWork(function);
+
             return Ok("works");
         }
     }

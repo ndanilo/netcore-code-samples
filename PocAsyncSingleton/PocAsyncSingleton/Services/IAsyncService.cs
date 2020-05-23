@@ -7,6 +7,6 @@ namespace PocAsyncSingleton.Services
 {
     public interface IAsyncService
     {
-        Task DoWork(string message, int amount);
+        Task DoWork(Func<Task> function);
     }
 }
